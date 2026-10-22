@@ -1,5 +1,10 @@
+```groovy
 pipeline {
     agent any
+
+    triggers {
+        pollSCM('H/2 * * * *')
+    }
 
     environment {
         GIT_URL = 'https://github.com/RajendraMutyala/Jenkins-projects.git'
@@ -74,3 +79,4 @@ pipeline {
         }
     }
 }
+```
