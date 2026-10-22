@@ -22,7 +22,7 @@ public class App {
                 <head><title>Jenkins Docker App</title></head>
                 <body>
                     <h1>Hello from Jenkins and Docker!</h1>
-                    <p>Your Java web application is running.</p>
+                    <p>Your Java web application is running super fast.</p>
                 </body>
                 </html>
                 """;
