@@ -19,18 +19,21 @@ public class App {
             String html = """
                 <!DOCTYPE html>
                 <html>
-                <head><title>Jenkins Docker App</title></head>
+                <head>
+                    <title>Jenkins Docker App</title>
+                </head>
                 <body>
-                    <h1>Hello from Jenkins, Docker and Rajendra.!</h1>
-                    <p>Your Java web application is running super fast.</p>
+                    <h1>Hi Rajendra</h1>
                 </body>
                 </html>
                 """;
 
             byte[] response = html.getBytes(StandardCharsets.UTF_8);
+
             exchange.getResponseHeaders().set(
                 "Content-Type", "text/html; charset=UTF-8"
             );
+
             exchange.sendResponseHeaders(200, response.length);
 
             try (OutputStream out = exchange.getResponseBody()) {
