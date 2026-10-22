@@ -10,7 +10,7 @@ pipeline {
         GIT_BRANCH = 'main'
         DOCKER_IMAGE = 'jenkins-projects'
         CONTAINER_NAME = 'jenkins-projects-app'
-        APP_PORT = '8080'
+        APP_PORT = '8081'
     }
 
     stages {
@@ -78,20 +78,27 @@ pipeline {
                 sh '''
                     set -eu
 
-                    echo "Removing previous application container if present..."
+                    echo "Removing previous application container..."
                     docker rm -f "$CONTAINER_NAME" 2>/dev/null || true
 
                     echo "Starting the new application container..."
                     docker run -d \
                         --name "$CONTAINER_NAME" \
                         --restart unless-stopped \
-                        -p "$APP_PORT:$APP_PORT" \
+                        -p "$APP_PORT:8080" \
                         "$DOCKER_IMAGE:$BUILD_NUMBER"
 
                     echo "Checking container status..."
                     docker ps --filter "name=$CONTAINER_NAME"
 
-                    echo "Deployment command completed."
+                    echo "Waiting for application startup..."
+                    sleep 3
+
+                    echo "Checking HTTP response..."
+                    curl --fail --retry 5 --retry-delay 2 \
+                        http://127.0.0.1:$APP_PORT/
+
+                    echo "Deployment completed successfully."
                 '''
             }
         }
@@ -100,8 +107,7 @@ pipeline {
     post {
         success {
             echo 'Pipeline completed successfully!'
-            echo 'The new Docker image has been deployed.'
-            echo 'Open your application using your server IP and port 8080.'
+            echo 'Application URL: http://YOUR_SERVER_PUBLIC_IP:8081'
         }
 
         failure {
