@@ -23,7 +23,7 @@ public class App {
                     <title>Jenkins Docker App</title>
                 </head>
                 <body>
-                    <h1>Hi Rajendra welcome to jenkins</h1>
+                    <h1>Hello there, welcome to jenkins</h1>
                 </body>
                 </html>
                 """;
